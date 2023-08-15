@@ -1,6 +1,5 @@
 <?php
-$senha = $_POST['senha'];
-$cpf = $_POST['cpf'];
+
 function validarCPF($cpf) {
   // Verifica se o número foi informado
   if (empty($cpf)) {
@@ -87,23 +86,30 @@ if (preg_match('/[!@#$%^&*()_+]/', $senha)) {
   return true;
 }
 
-// Se o CPF e a senha forem válidos, entrar na tela login.html"
-if (empty($_POST['cpf']) && empty($_POST['senha'])) {
-  echo "Por favor, preencha todos os campos.";
-} 
-else if(empty($_POST['cpf'])){
-  echo("Por favor, preencha todos os campos");
-}
-else if(empty($_POST['senha'])){
-  echo("Por favor, preencha todos os campos");
+// Valida o CPF
+if (empty($_POST['cpf'])) {
+  echo "Por favor, informe o CPF.";
+} else {
+  $cpf = $_POST['cpf'];
+  if (validarCPF($cpf)) {
+    echo "";
+  } else {
+    echo "O CPF é inválido.";
+  }
 }
 
-else{
+// Valida a senha
+if (empty($_POST['senha'])) {
+  echo "Por favor, informe a senha.";
+} else {
   $senha = $_POST['senha'];
-  $cpf = $_POST['cpf'];
- if (validarCPF($cpf) && validarSenha($senha)) {
-  header('Location: inicio.html');
-}  else {
-  echo "Senha ou CPF inválido";
-}}
- ?>
+  if (validarSenha($senha)) {
+    echo "";
+  } else {
+    echo "A senha é inválida.";
+  }
+}
+
+// Se o CPF e a senha forem válidos, exibe a mensagem "Acesso autorizado"
+if (validarCPF($cpf) && validarSenha($senha)) {
+    header('Location: ola.html');}
